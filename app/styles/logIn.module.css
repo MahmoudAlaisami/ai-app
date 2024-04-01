@@ -1,0 +1,80 @@
+/* login.module.css */
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* background-color: lightblue; */
+  background-image: url('/neural-network.jpg') ;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  /* background-color: red; */
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 14px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 50%;
+  min-height: 260px;
+  width: 25%;
+  min-width: 350px;
+  max-width: 440px;
+}
+
+.welcome {
+  font-size: x-large;
+  /* font-weight: bold; */
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.formItem {
+  margin-bottom: 16px;
+  position: relative;
+  right: 15px;
+}
+
+.imageContainer {
+  height: 50%;
+  width: 320px;
+  border-radius: 0 8px 8px 0;
+  align-items: end;
+}
+
+.image {
+  height: 100%;
+  width: 95%;
+  border-radius: 0 8px 8px 0;
+}
+
+.signUpContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  right: 12px;
+}
+
+.or {
+  /* display: flex; */
+  position: relative;
+  right: 11px;
+}
+
+.signUpButton {
+  color: #4bb3d5;
+  right: 12px;
+}
