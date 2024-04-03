@@ -1,5 +1,16 @@
 :root {
-  
+  --color-bg-i: #F5F5F5;
+  --color-bg-ii: #C8D1DD;
+  --color-bg-iii: #627aa4;
+  --color-bg-iv: #4e6182;
+  --color-bg-v: #a0b4ce41;
+  --color-bg-vi: #88a7ce;
+  --color-i: #4d6ea8;
+  --color-ii: #20487b;
+  --color-iii: #303841;
+  --color-iv: #06203e;
+  --color-b: black;
+  --color-w: white;
 }
 
 * {
@@ -17,3 +28,38 @@ body {
 body {
 }
 
+.ant-input-wrapper {
+  height: 100%;
+  /* background-color: var(--color-bg-ii); */
+  margin: 0;
+}
+.ant-input-group-wrapper-outlined {
+  height: 100%;
+  /* background-color: var(--color-bg-ii); */
+  margin: 0;
+}
+.ant-input-group-wrapper {
+  height: 100%;
+  /* background-color: var(--color-bg-ii); */
+  margin: 0;
+}
+.ant-input-group {
+height: 100%;
+background-color: var(--color-bg-ii);
+margin: 0;
+}
+.ant-input {
+  height: 100%;
+  background-color: var(--color-bg-ii);
+  margin: 0;
+}
+
+.ant-input:focus {
+  background-color: var(--color-bg-vi);
+  border-color: var(--color-bg-iv);
+}
+
+.ant-input:hover {
+  background-color: var(--color-bg-vi);
+  border-color: var(--color-bg-iv);
+}

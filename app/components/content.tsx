@@ -1,19 +1,32 @@
-import React from 'react'
-import styles from "@/styles/content.module.css"
-import {contentPropsTypes} from "@/types/app.t"
-import Chat from './chat';
+import React from "react";
+import styles from "@/styles/content.module.css";
+import { contentPropsTypes, chat } from "@/utils/app.t";
+import Chat from "./chat";
+import SideBar from "./sideBar";
 
-const Content = ({user, userData, setUserData}: contentPropsTypes) => {
+
+const Content = ({ user, userData, setUserData }: contentPropsTypes) => {
+
+  const [selectedChat, setSelectedChat] = React.useState<chat>(userData[0])
+  // const chat = selectedChat?.queries
+
+  const handleChatSelect = (chat) => {
+    console.log('.... content to display',chat);
+    setSelectedChat(chat)
+  };
 
 
   return (
     <div className={styles.container}>
-      {/* <Sidebar /> */}
-      <Chat data={userData}/>
-      {/* hello */}
+      <div className={styles.chatContainer}>
+        <Chat chat={selectedChat} setUserData={setUserData}/>
+      </div>
 
+      <div className={styles.sideBar}>
+        <SideBar user={user} userData={userData} setUserData={setUserData} onSelect={(data)=>handleChatSelect(data)}/>
+      </div>
     </div>
   );
 };
 
-export default Content
+export default Content;

@@ -1,45 +1,135 @@
 .container {
+  width: 100%;
+  height: 100%;
   padding: 20;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
-  justify-content: space-between;
   align-items: center;
-  /* border: 5px solid black; */
+  background-color: var(--color-bg-i);
+}
+
+.head {
+  align-self: center;
+  margin-top: 12px;
+  width: 60%;
+  font-size: large;
+  border: 1px solid var(--color-ii);
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--color-i);
+}
+
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  /* background-color: darkgrey; */
 }
 
 .chat {
-  /* align-self: center; */
-  /* display: flex;
-  justify-content: center; */
-  margin-top: 12px;
-  width: 60%;
-  border: 1px solid black
+  width: 100%;
+  margin-bottom: 30px;
+  /* background-color: red; */
+}
+
+.requestContainer {
+  width: 100%;
+  /* background-color: blue; */
+  padding-bottom: 8px;
+  /* margin-bottom: 8px; */
+}
+
+.you {
+  font-weight: bold;
+  margin-bottom: 8px ;
+  color: var(--color-iii);
+}
+
+.request {
+  padding-left: 8px;
+  /* color: var(--color-i); */
+}
+
+.edit {
+  /* position: relative; */
+  align-self: flex-end;
+  align-items: flex-end;
+  text-align: right;
+  right: 0;
+  /* background-color: brown; */
+}
+
+.editButton {
+  opacity: 0.0;
+  /* background-color: red; */
+}
+
+.requestContainer:hover .edit .editButton {
+  opacity: 1;
+  /* background-color: red; */
+} 
+
+.responseContainer {
+  width: 100%;
+  /* background-color: blueviolet; */
+}
+
+.bot {
+  font-weight: bold;
+  margin-bottom: 8px ;
+  color: var(--color-ii);
+}
+
+.response {
+  padding-left: 8px;
 }
 
 .prompt {
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: 40%;
+  height: 40px;
+  align-self: center;
   margin-bottom: 20px;
   margin-top: 10px;
+  margin-left: 25px;
+  position: absolute;
+  bottom: 0;
+  right: 2;
 }
 
 .textArea {
-  /* background-color: red; */
-  width: 40%;
-  height: 40px;
+  width: 100%;
+  height: 100%;
   border-top-left-radius: 0%;
   border-bottom-left-radius: 0%;
+  background-color: var(--color-bg-ii);
+  padding: 0;
+  margin: 0;
 }
 
-.button {
+input.textArea {
+  background-color: var(--color-bg-ii);
+}
+
+
+
+.sendButton {
   height: 40px;
-  width: 5%;
+  width: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background-color: blue; */
+  /* background-color: var(--color-bg-ii); */
+}
+
+@media screen and (max-width: 600px) {
+  .sendButton {
+    height: 30px;
+    width: 30px;
+  }
+  .prompt {
+    height: 30px;
+  }
 }
