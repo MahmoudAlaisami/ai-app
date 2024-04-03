@@ -10,7 +10,7 @@ import { mochData, mochUser } from "@/temp";
 
 export default function Home() {
 
-  const [user, setUser] = React.useState<User | null>(mochUser);
+  const [user, setUser] = React.useState<User | null>(null);
   const [userData, setUserData] = React.useState<chat[] | null>([_newChat]);
   const [token, setToken] = React.useState<string>('');
 
@@ -24,7 +24,7 @@ export default function Home() {
 
 
   // const isSignedIn = !!token;
-  const isSignedIn = true    ;
+  const isSignedIn = !!token    ;
 
   return (
     <div className={styles.container}>

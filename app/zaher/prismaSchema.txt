@@ -33,6 +33,12 @@ model Users {
 
 model Conversations {
   id        Int      @id @default(autoincrement())
-  userId    Int      @unique
+  userId    Int      
   chats     
+}
+
+model Authentication {
+  id        Int      @id @default(autoincrement())
+  userId    Int      
+  token     string
 }

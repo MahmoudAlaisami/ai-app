@@ -31,7 +31,7 @@ const { HuggingFaceInference } = require("@langchain/community/llms/hf");
 console.log('hello')
 const chat = new HuggingFaceInference({
   model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
-  apiKey: "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", // In Node.js defaults to process.env.HUGGINGFACEHUB_API_KEY
+  apiKey: process.env.HF_API_KEY, // In Node.js defaults to process.env.HUGGINGFACEHUB_API_KEY
   max_length: 700, 
   max_new_tokens:700,// Set max_new_tokens to an appropriate value
   temperature:0.1,
