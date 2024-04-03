@@ -7,7 +7,7 @@ import { chatPropsTypes } from "@/utils/app.t";
 
 const Chat = ({ chat, setUserData }: chatPropsTypes) => {
   const [prompt, setPromt] = React.useState<string>("");
-  const chats = chat?.queries
+  const chats = chat!.queries
   const handleSend = () => {
     console.log(".... ", prompt);
     // if(true/* index */){
@@ -35,14 +35,14 @@ const Chat = ({ chat, setUserData }: chatPropsTypes) => {
         {chats.map((item, index): any => (
           <div key={index} className={styles.chat}>
             <div className={styles.requestContainer}>
-              <div className={styles.you}>You</div>
-              <div className={styles.request}>{item.request}</div>
+              <div className={styles.you}>{chats.length>1 && ("You")}</div>
+              <div className={styles.request}>{item?.request}</div>
               <div className={styles.edit}><EditOutlined onClick={()=>handleChatEdit({item, index})} className={styles.editButton}/></div>
             </div>
             <br />
             <div className={styles.responseContainer}>
-              <div className={styles.bot}>Bot</div>
-              <div className={styles.response}>{item.response}</div>
+              <div className={styles.bot}>{chats.length>1 && ("You")}</div>
+              <div className={styles.response}>{item?.response}</div>
             </div>
             <br />
             {index !== chats.length - 1 && <hr />} 

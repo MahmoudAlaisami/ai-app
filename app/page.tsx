@@ -10,8 +10,8 @@ import { mochData, mochUser } from "@/temp";
 
 export default function Home() {
 
-  const [user, setUser] = React.useState<User | null>(null);
-  const [userData, setUserData] = React.useState<chat[] | []>([]);
+  const [user, setUser] = React.useState<User | null>(mochUser);
+  const [userData, setUserData] = React.useState<chat[] | null>([_newChat]);
   const [token, setToken] = React.useState<string>('');
 
 
@@ -37,5 +37,5 @@ export default function Home() {
 const _newChat = {
   title: "New Chat",
   queries: [{request: "", response: ""}],
-  time: Date.now()
+  time: new Date()
 }
