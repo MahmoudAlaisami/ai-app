@@ -1,18 +1,27 @@
 import React from "react";
 import styles from "@/styles/logIn.module.css";
-import { propsTypes, loginPropsTypes, User } from "@/utils/app.t";
+import { propsTypes, loginPropsTypes, User, loginFormProps, signUpFormProps, FormCombinedProps } from "@/utils/app.t";
 import { emailRegex } from "@/utils/regex";
 import { logIn, _signUp } from "@/utils/service";
 import { Button, Form, Input, Image } from "antd";
 
+
 // TODO: complete the functionality of logIn and signUp
 //       check the return of the functions on onSignIn params 
 
-const LogIn: React.FC<propsTypes> = ({ onSignIn }) => { 
-  const [signUp, setSignUp] = React.useState<boolean>(false);
-  // const router = useRouter();
 
-  const handleLogin = async ({ email, password }: loginPropsTypes) => {
+// export const getServerSideProps = async () => {
+//   const user = await logIn({ email, password });
+  
+//   return {
+//     props: { user },
+//   };
+// }
+
+const LogIn: React.FC<any> = ({ onSignIn, user }) => { 
+  const [signUp, setSignUp] = React.useState<boolean>(false);
+
+  const handleLogin = async ({ email, password }: any) => {
     // check if email and password are empty
     if (!email || !password) {
       alert("enter your username or password");
@@ -20,58 +29,35 @@ const LogIn: React.FC<propsTypes> = ({ onSignIn }) => {
     }
 
     // Handle login logic
-    const response = await logIn({ email, password });
-    // const response = {user, token}
-    console.log(".... ", { email, password });
-    // localStorage.set("token", token)
-    onSignIn(true);
-    // const data = await getUserData({email, token})
-    // setUserData(data)
+    const user = await logIn({ email, password })
+    console.log(".... user login", user);
+
+    onSignIn(user);
   };
 
   const handleSignForm = () => {
     setSignUp(!signUp)
   };
 
-  const handleSignUp = async ({
-    email,
-    password,
-    firstName,
-    lastName,
-    gender,
-    birthDate,
-  }: User) => {
+  const handleSignUp = async ({ email, password, firstName, lastName, gender, birthDay }: User) => {
+    console.log('.... sign up initiated',);
     if (!email || !password || !firstName || !lastName) {
       alert("fill in the required inputs marked by *");
       return;
     }
+    
 
     // Handle SignUp logic
-    const response = await _signUp({
-      email,
-      password,
-      firstName,
-      lastName,
-      gender,
-      birthDate,
-    });
+    const user = await _signUp({ email, password, firstName, lastName, gender, birthDay });
 
-    console.log(".... ", {
-      email,
-      password,
-      firstName,
-      lastName,
-      gender,
-      birthDate,
-    });
-    onSignIn(true);
+    console.log(".... ", user);
+    onSignIn(user);
   };
 
   return (
     <div className={styles.container}>
       {!signUp && (
         <div className={styles.formContainer}>
-          {/* <div className={styles.welcome}>Welcome back!</div> */}
         
           <Form
             name="basic"
@@ -83,7 +69,7 @@ const LogIn: React.FC<propsTypes> = ({ onSignIn }) => {
             onFinishFailed={() => {}}
             autoComplete="off"
           >
-            <Form.Item<loginPropsTypes>
+            <Form.Item<any>
               label="Email"
               name="email"
               rules={[{ required: true, message: "Please input your email!" }]}
@@ -91,7 +77,8 @@ const LogIn: React.FC<propsTypes> = ({ onSignIn }) => {
             >
               <Input />
             </Form.Item>
-            <Form.Item<loginPropsTypes>
+
+            <Form.Item<any>
               label="Password"
               name="password"
               rules={[
@@ -103,7 +90,7 @@ const LogIn: React.FC<propsTypes> = ({ onSignIn }) => {
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" >
                 Sign In
               </Button>
             </Form.Item>
@@ -135,7 +122,7 @@ const LogIn: React.FC<propsTypes> = ({ onSignIn }) => {
             onFinishFailed={() => {}}
             autoComplete="off"
           >
-            <Form.Item<User>
+            <Form.Item<any>
               label="Email"
               name="email"
               rules={[
@@ -147,7 +134,7 @@ const LogIn: React.FC<propsTypes> = ({ onSignIn }) => {
               <Input />
             </Form.Item>
 
-            <Form.Item<User>
+            <Form.Item<any>
               label="Password"
               name="password"
               rules={[
@@ -159,7 +146,7 @@ const LogIn: React.FC<propsTypes> = ({ onSignIn }) => {
               <Input.Password />
             </Form.Item>
 
-            <Form.Item<User>
+            <Form.Item<any>
               label="First Name"
               name="firstName"
               rules={[
@@ -194,7 +181,7 @@ const LogIn: React.FC<propsTypes> = ({ onSignIn }) => {
 
             <Form.Item<User>
               label="Birth Date"
-              name="birthDate"
+              name="birthDay"
               rules={[
                 { required: false, message: "Please input your birth date!" },
               ]}
@@ -204,7 +191,7 @@ const LogIn: React.FC<propsTypes> = ({ onSignIn }) => {
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" >
                 Sign Up
               </Button>
             </Form.Item>

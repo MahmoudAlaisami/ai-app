@@ -5,7 +5,7 @@ import Chat from "./chat";
 import SideBar from "./sideBar";
 
 
-const Content = ({ user, userData, setUserData }: contentPropsTypes) => {
+const Content = ({ user, userData, setUserData, setUser }: contentPropsTypes) => {
 
   const [selectedChat, setSelectedChat] = React.useState<chat>(userData[0])
   // const chat = selectedChat?.queries
@@ -19,11 +19,11 @@ const Content = ({ user, userData, setUserData }: contentPropsTypes) => {
   return (
     <div className={styles.container}>
       <div className={styles.chatContainer}>
-        <Chat chat={selectedChat} setUserData={setUserData}/>
+        <Chat chat={selectedChat} userData={userData} setUserData={setUserData} />
       </div>
 
       <div className={styles.sideBar}>
-        <SideBar user={user} userData={userData} setUserData={setUserData} onSelect={(data)=>handleChatSelect(data)}/>
+        <SideBar user={user} setUser={setUser} userData={userData} setUserData={setUserData} onSelect={(data)=>handleChatSelect(data)}/>
       </div>
     </div>
   );

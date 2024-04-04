@@ -51,7 +51,7 @@ const ChatEdit = ({chat, index, setUserData, userData, onDelete}:any) => {  // f
         <span>delete</span> 
         <span><DeleteOutlined /></span>
       </div>
-      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="Change Chat Title" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <Input value={newTitle} onChange={hadnleInputChange} maxLength={20}/>
       </Modal>
     </div>

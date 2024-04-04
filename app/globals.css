@@ -63,3 +63,10 @@ margin: 0;
   background-color: var(--color-bg-vi);
   border-color: var(--color-bg-iv);
 }
+
+.profile .anticon  {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
