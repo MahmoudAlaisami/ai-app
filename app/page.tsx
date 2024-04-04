@@ -6,7 +6,7 @@ import LogIn from "./login/page";
 import Content from "@/components/content"
 import _newChat from "@/utils/newChat"
 
-import { mochData, mochUser } from "../temp";
+// import { mochData, mochUser } from "../temp";
 
 
 export default function Home() {
