@@ -7,23 +7,23 @@ import SideBar from "./sideBar";
 
 const Content = ({ user, userData, setUserData, setUser }: contentPropsTypes) => {
 
-  const [selectedChat, setSelectedChat] = React.useState<chat>(userData[0])
+  const [selectedChatIndex, setSelectedChatIndex] = React.useState<number>(0)
   // const chat = selectedChat?.queries
 
-  const handleChatSelect = (chat) => {
-    console.log('.... content to display',chat);
-    setSelectedChat(chat)
+  const handleChatSelect = (index) => {
+    console.log('.... content to display', index);
+    setSelectedChatIndex(index)
   };
 
 
   return (
     <div className={styles.container}>
       <div className={styles.chatContainer}>
-        <Chat chat={selectedChat} userData={userData} setUserData={setUserData} />
+        <Chat chatIndex={selectedChatIndex} userData={userData} setUserData={setUserData} />
       </div>
 
       <div className={styles.sideBar}>
-        <SideBar user={user} setUser={setUser} userData={userData} setUserData={setUserData} onSelect={(data)=>handleChatSelect(data)}/>
+        <SideBar user={user} setUser={setUser} userData={userData} setUserData={setUserData} onSelect={(index)=>handleChatSelect(index)}/>
       </div>
     </div>
   );

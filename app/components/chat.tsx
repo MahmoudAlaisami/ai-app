@@ -5,12 +5,13 @@ import { SendOutlined, EditOutlined } from "@ant-design/icons";
 import { chatPropsTypes } from "@/utils/app.t";
 // import { data } from '@/temp';
 
-const Chat = ({ chat, userData, setUserData }: chatPropsTypes) => {
+const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
   const [prompt, setPromt] = React.useState<string>("");
   const [index, setIndex] = React.useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
-  const queries = chat!.queries;
-  const chatIndex = userData.indexOf(chat);
+
+  const chat = userData[chatIndex]
+  const queries = chat?.queries;
 
   const handleSend = () => {
     console.log(".... ", prompt);
@@ -20,6 +21,12 @@ const Chat = ({ chat, userData, setUserData }: chatPropsTypes) => {
 
     // edit state
     // test this 
+    if(chat.queries[chat.queries.length-1].request = ""){
+      console.log('.... enetered replacing empty chat',);
+      chat.queries = [{request: prompt, response}];
+      return setUserData[chatIndex] = chat;
+    }
+    console.log('.... entered incrementing chat',);
     chat.queries = [...chat.queries, {request: prompt, response}]
     setUserData[chatIndex] = chat
   };
@@ -58,7 +65,7 @@ const Chat = ({ chat, userData, setUserData }: chatPropsTypes) => {
       <div className={styles.head}>LLM AI Bot</div>
 
       <div className={styles.chatContainer}>
-        {queries.map((query, index): any => (
+        {queries?.map((query, index): any => (
           <div key={index} className={styles.chat}>
             <div className={styles.requestContainer}>
               <div className={styles.you}>{queries.length>1 && ("You")}</div>

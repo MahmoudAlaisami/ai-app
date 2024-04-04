@@ -16,6 +16,7 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
 
   React.useEffect(()=>{
     setProfile(`${user?.firstName} ${user?.lastName}`)
+    console.log('.... ',profile);
   },[profile])
 
 
@@ -23,9 +24,9 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
     setSideBar(!sideBar);
   };
 
-  const handleChatSelect = (chat: chat) => {
-    onSelect(chat);
-    console.log(".... chat", chat);
+  const handleChatSelect = (index: number) => {
+    onSelect(index);
+    console.log(".... chat", userData[index]);
   };
 
   const handleNewChat = () => {
@@ -35,14 +36,15 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
   };
   
   const handleDelete = (index: number) => {
-    const _userData = userData.splice(index,1);
-    setUserData(null);
-    setUserData(_userData);
+    userData.splice(index,1);
+    // setUserData(null);
+    setUserData(userData);
   }
 
   const handleLogout = () => {
     localStorage.clear();
-    setUserData(null)
+    setUserData([_newChat])
+    setUser(null)
     // await logOut...
   }
 
@@ -66,10 +68,10 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
         </div>
         <div className={styles.chatContainer}>
           {sideBar &&
-            userData.map((chat,index): any => ( // fix type !!!
+            userData?.map((chat,index): any => ( // fix type !!!
             <Popover content={<ChatEdit chat={chat} index={index} setUserData={setUserData} userData={userData} onDelete={handleDelete}/*onDelete={handleDeleteChat}*/ />} trigger="hover" key={index}>
               <div
-                onClick={() => handleChatSelect(chat)}
+                onClick={() => handleChatSelect(index)}
                 className={styles.chat}
               >
                 {chat?.title}

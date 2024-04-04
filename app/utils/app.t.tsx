@@ -56,7 +56,7 @@ export interface sideBarProps {
 }
 
 export interface chatPropsTypes {
-  chat: chat;
+  chatIndex: number;
   setUserData: Function;
   userData: Array<chat>;
 }
