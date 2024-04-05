@@ -22,20 +22,27 @@ export default function Home() {
     }
   }
 
+  const fetchUserData = async () => {
+    const data = userData//await getChats ... api call
+    localStorage.setItem("userData", JSON.stringify(data))
+    setUserData(data)
+  }
+
   React.useEffect(()=>{
     console.log('.... useEffect',user);
     retrieveUser();
+    fetchUserData();
   },[])
 
   const handleUserData = (data: chat[]) => {
     localStorage.setItem('userData', JSON.stringify(data))
+    console.log('.... handleUserData',data);
     setUserData(data);
   }
 
   const handleSignIn = (_user: User) => {
     setUser(_user);
-    // const _chats = await getChats(user.id);
-    // handleUserData(_chats);
+    fetchUserData();
 
   }
 

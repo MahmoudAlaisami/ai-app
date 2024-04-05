@@ -1,5 +1,6 @@
 import { loginPropsTypes, User } from "./app.t";
 import prisma from "./prisma";
+import { chain } from "./chatModel";
 
 export const getUserData = () => {
   const storageData: Object | any =
@@ -31,7 +32,7 @@ export const logIn = async ({ email, password }: loginPropsTypes) => {
     // }
 
    // save the user in local storage
-   const user = {email, password, fistName: 'kk', lasName: "K"}
+   const user = {email, password, fistName: 'namek', lasName: "last nameK"}
    delete user.password
    localStorage.setItem("user", JSON.stringify(user)); 
 
@@ -210,3 +211,12 @@ export const _signUp = async ({ email, password, firstName, lastName, gender, bi
 //     throw new Error("Failed to delete chat: " + error.message);
 //   }
 // };
+
+
+export const apiCall = async ({prompt}) => {
+  // const response = await chain.call({
+  //   input: prompt
+  // });
+  const response = null
+  return response
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use } from "react";
 import styles from "@/styles/sideBar.module.css";
 import { sideBarProps, chat } from "@/utils/app.t";
 import { MenuOutlined, SettingOutlined, PlusOutlined, EditOutlined } from "@ant-design/icons";
@@ -14,10 +14,10 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
   const [sideBar, setSideBar] = React.useState<boolean>(false);
   const [profile, setProfile] = React.useState<string>("");
 
-  React.useEffect(()=>{
-    setProfile(`${user?.firstName} ${user?.lastName}`)
-    console.log('.... ',profile);
-  },[profile])
+  // React.useEffect(()=>{
+  //   setProfile(`${user?.firstName} ${user?.lastName}`)
+  //   console.log('.... hhhhh',profile, user?.firstName);
+  // },[profile])
 
 
   const handleToggleMenu = () => {
@@ -43,8 +43,8 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
 
   const handleLogout = () => {
     localStorage.clear();
-    setUserData([_newChat])
-    setUser(null)
+    setUserData([_newChat]);
+    setUser(null);
     // await logOut...
   }
 
@@ -80,13 +80,11 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
           ))}
         </div>
       </div>
-      <Popover content={logoutContent} trigger="hover" >
-        {sideBar && profile}
+      <div>
+        <Popover content={logoutContent} trigger="hover" >
+        {sideBar && `${user.firstName} ${user.lastName}`}
       </Popover>
-      {/* <div className={styles.profile} >
-          {sideBar && profile}
-          <SettingOutlined className={styles.settings} />
-      </div> */}
+      </div>
     </div>
   );
 };

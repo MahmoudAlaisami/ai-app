@@ -9,26 +9,38 @@ const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
   const [prompt, setPromt] = React.useState<string>("");
   const [index, setIndex] = React.useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  const [isVisible, setIsVisible] = React.useState<boolean>(false);
+
 
   const chat = userData[chatIndex]
-  const queries = chat?.queries;
+  const { queries } = chat
+
+  React.useEffect(() => {
+    if(chat.queries[0].response !== "") {
+      return setIsVisible(true)
+    }
+    setIsVisible(false)
+    console.log('.... ',userData);
+  }, [])
 
   const handleSend = () => {
     console.log(".... ", prompt);
 
     // send api call
-    const response = null // await call...
-
+    const response = "" // await call...
+    console.log('.... userData',userData);
     // edit state
     // test this 
-    if(chat.queries[chat.queries.length-1].request = ""){
+    if(chat.queries[0].request === ""){
       console.log('.... enetered replacing empty chat',);
       chat.queries = [{request: prompt, response}];
-      return setUserData[chatIndex] = chat;
+      userData[chatIndex] = chat;
+      return setUserData(userData)
     }
-    console.log('.... entered incrementing chat',);
+    console.log('.... entered incrementing chat',)
     chat.queries = [...chat.queries, {request: prompt, response}]
-    setUserData[chatIndex] = chat
+    userData[chatIndex] = chat
+    setUserData(userData)
   };
 
   const handleChatEdit = ({query, index}: any) => {
@@ -68,13 +80,13 @@ const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
         {queries?.map((query, index): any => (
           <div key={index} className={styles.chat}>
             <div className={styles.requestContainer}>
-              <div className={styles.you}>{queries.length>1 && ("You")}</div>
+              <div className={styles.you}>{!!(query?.request.length) && ("You")}</div>
               <div className={styles.request}>{query?.request}</div>
               <div className={styles.edit}><EditOutlined onClick={()=>handleChatEdit({query, index})} className={styles.editButton}/></div>
             </div>
             <br />
             <div className={styles.responseContainer}>
-              <div className={styles.bot}>{queries.length>1 && ("You")}</div>
+              <div className={styles.bot}>{!!(query?.response.length) && ("You")}</div>
               <div className={styles.response}>{query?.response}</div>
             </div>
             <br />
