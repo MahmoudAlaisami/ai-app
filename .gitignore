@@ -41,3 +41,5 @@ app/temp.tsx
 zaher/
 app/zaher/
 temp.tsx
+app/utils/chatModelNew.tsx
+app/utils/newApi.ts
