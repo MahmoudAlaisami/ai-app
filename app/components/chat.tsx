@@ -3,6 +3,7 @@ import styles from "@/styles/chat.module.css";
 import { Input, Button, Modal } from "antd";
 import { SendOutlined, EditOutlined } from "@ant-design/icons";
 import { chatPropsTypes } from "@/utils/app.t";
+import { apiCall } from "@/utils/service";
 // import { data } from '@/temp';
 
 const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
@@ -13,7 +14,6 @@ const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
 
 
   const chat = userData[chatIndex]
-  const { queries } = chat
 
   React.useEffect(() => {
     if(chat.queries[0].response !== "") {
@@ -23,19 +23,20 @@ const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
     console.log('.... ',userData);
   }, [])
 
-  const handleSend = () => {
+  const handleSend = async () => {
     console.log(".... ", prompt);
 
     // send api call
-    const response = "" // await call...
-    console.log('.... userData',userData);
+    const response = await apiCall({prompt})
     // edit state
     // test this 
+    setPromt("")
     if(chat.queries[0].request === ""){
       console.log('.... enetered replacing empty chat',);
       chat.queries = [{request: prompt, response}];
       userData[chatIndex] = chat;
-      return setUserData(userData)
+      setUserData(userData);
+      return;
     }
     console.log('.... entered incrementing chat',)
     chat.queries = [...chat.queries, {request: prompt, response}]
@@ -77,7 +78,7 @@ const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
       <div className={styles.head}>LLM AI Bot</div>
 
       <div className={styles.chatContainer}>
-        {queries?.map((query, index): any => (
+        {chat?.queries?.map((query, index): any => (
           <div key={index} className={styles.chat}>
             <div className={styles.requestContainer}>
               <div className={styles.you}>{!!(query?.request.length) && ("You")}</div>
@@ -90,7 +91,7 @@ const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
               <div className={styles.response}>{query?.response}</div>
             </div>
             <br />
-            {index !== queries.length - 1 && <hr />} 
+            {index !== chat?.queries.length - 1 && <hr />} 
           </div>
         ))}
       </div>

@@ -1,11 +1,11 @@
 import { loginPropsTypes, User } from "./app.t";
 import prisma from "./prisma";
-import { chain } from "./chatModel";
+import {chain}  from "./chatModel";
 
 export const getUserData = () => {
   const storageData: Object | any =
     typeof window !== "undefined"
-      ? JSON.parse(localStorage.getItem("userData") || "{}")
+      ? JSON.parse(localStorage.getItem("userData") || "[]")
       : null;
   return storageData;
 };
@@ -66,10 +66,10 @@ export const _signUp = async ({ email, password, firstName, lastName, gender, bi
       },
     });
 
-   // save the user in local storage
-  //  const newUser = {email, password, fistName: 'kk', lasName: "K"}
-  delete newUser.password
-   localStorage.setItem("user", JSON.stringify(newUser)); 
+    // save the user in local storage
+    //  const newUser = {email, password, fistName: 'kk', lasName: "K"}
+    delete newUser.password
+    localStorage.setItem("user", JSON.stringify(newUser)); 
 
     return newUser;
   } catch (error) {
@@ -214,9 +214,20 @@ export const _signUp = async ({ email, password, firstName, lastName, gender, bi
 
 
 export const apiCall = async ({prompt}) => {
-  // const response = await chain.call({
-  //   input: prompt
-  // });
-  const response = null
-  return response
+
+  try {
+    const response = await chain.call({
+      input: prompt
+    })
+  
+    console.log('.... service..apiCall..response',response.response);
+    return response.response
+    
+  } catch(error) {
+    console.log('.... service..apiCall..error',error);
+    throw new Error(error.message)
+  }
+  
 }
+
+// console.log('.... example',apiCall({prompt: "what is you name"}));

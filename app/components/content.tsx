@@ -10,7 +10,7 @@ const Content = ({ user, userData, setUserData, setUser }: contentPropsTypes) =>
   const [selectedChatIndex, setSelectedChatIndex] = React.useState<number>(0)
   // const chat = selectedChat?.queries
 
-  const handleChatSelect = (index) => {
+  const handleChatSelect = (index: number ) => {
     console.log('.... content to display', index);
     setSelectedChatIndex(index)
   };
@@ -23,7 +23,7 @@ const Content = ({ user, userData, setUserData, setUser }: contentPropsTypes) =>
       </div>
 
       <div className={styles.sideBar}>
-        <SideBar user={user} setUser={setUser} userData={userData} setUserData={setUserData} onSelect={(index)=>handleChatSelect(index)}/>
+        <SideBar user={user} setUser={setUser} userData={userData} setUserData={setUserData} onSelect={(index: number)=>handleChatSelect(index)}/>
       </div>
     </div>
   );

@@ -23,6 +23,11 @@
   border-radius: 50%;
 }
 
+.menuButton:hover {
+  border: 1px solid var(--color-i);
+  color: var(--color-i)
+}
+
 .newChatContainer {
   /* display: flex;
   flex-direction: row;
@@ -41,7 +46,8 @@
 }
 
 .newChatIcon:hover {
-  background-color: var(--color-bg-iv);
+  background-color: var(--color-bg-ii);
+  border: 1px solid var(--color-bg-iii);
 }
 
 
@@ -52,9 +58,11 @@
 .chatContainer {
   display: flex;
   flex-direction: column;
+  flex-flow: column-reverse;
   width: auto;
+  max-height: 100%;
+  overflow: auto;
   /* border: 2px solid var(--color-iii); */
-  height: 100%;
   /* background-color: darkgoldenrod; */
 }
 
@@ -68,14 +76,6 @@
 .chat:hover {
   background-color: var(--color-bg-iii);
   color: var(--color-w)
-}
-
-.chatTitleEditButton {
-  opacity: 0;
-}
-
-.chatContainer:hover .chat .chatTitleEditButton {
-  opacity: 1;
 }
 
 .profile {

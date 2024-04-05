@@ -16,6 +16,8 @@ const ChatEdit = ({chat, index, setUserData, userData, onDelete}:any) => {  // f
 
   const handleDelete = () => {
     console.log('.... handleDelete',index);
+    // userData.splice(index, 1)
+    // setUserData(userData)
     onDelete(index)
     // userData.splice(index,1);
     // setUserData(userData);

@@ -31,20 +31,22 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
 
   const handleNewChat = () => {
     console.log(".... new chat should be created");
-    setUserData([...userData, _newChat])
+    const newData = [...userData, _newChat];
+    setUserData(newData)
+    onSelect(newData.length - 1)
     // handle new chat logic
   };
   
   const handleDelete = (index: number) => {
-    userData.splice(index,1);
-    // setUserData(null);
-    setUserData(userData);
+    const newData = [...userData];
+    newData.splice(index, 1); 
+    setUserData(newData);
   }
 
   const handleLogout = () => {
-    localStorage.clear();
+    // localStorage.clear();
     setUserData([_newChat]);
-    setUser(null);
+    // setUser(null);
     // await logOut...
   }
 
@@ -73,6 +75,7 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
               <div
                 onClick={() => handleChatSelect(index)}
                 className={styles.chat}
+                key={index}
               >
                 {chat?.title}
               </div>
