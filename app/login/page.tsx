@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import styles from "@/styles/logIn.module.css";
 import { propsTypes, loginPropsTypes, User, loginFormProps, signUpFormProps, FormCombinedProps } from "@/utils/app.t";

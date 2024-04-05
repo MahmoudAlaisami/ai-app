@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import styles from "@/styles/content.module.css";
 import { contentPropsTypes, chat } from "@/utils/app.t";
