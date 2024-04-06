@@ -89,7 +89,14 @@ const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
             <br />
             <div className={styles.responseContainer}>
               <div className={styles.bot}>{!!(query?.response.length) && ("Bot")}</div>
-              <div className={styles.response}>{query?.response}</div>
+              <p className={styles.response}>
+                {query?.response.split('\n').map((line, index) => (
+                <React.Fragment key={index}>
+                  {line}
+                  <br />
+                </React.Fragment>
+                ))}
+              </p>
             </div>
             <br />
             {index !== chat?.queries.length - 1 && <hr />} 

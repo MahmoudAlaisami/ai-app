@@ -5,6 +5,8 @@ const { BufferMemory } = require("langchain/memory");
 import { NextRequest, NextResponse } from "next/server";
 import { useParams } from 'next/navigation'
 
+console.log('.... pass',process.env);
+
 
 // export default async () => {
 //   try {
@@ -12,15 +14,15 @@ import { useParams } from 'next/navigation'
     // console.log('.... params',params);
     const chat = new HuggingFaceInference({
       model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
-      // apiKey: process.env.HF_API_KEY,
-      apiKey: "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",
+      apiKey: process.env.HF_API_KEY,
+      // apiKey: "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",
       max_length: 700,
       max_new_tokens: 700,// Set max_new_tokens to an appropriate value
       temperature: 0.1,
       max_time: 120,
       use_cache: false,
       streaming: true,
-
+      maxTokens: 1000
     });
 
 
