@@ -1,9 +1,10 @@
 .container {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   padding: 20;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   background-color: var(--color-bg-i);
 }
@@ -23,6 +24,8 @@
   display: flex;
   flex-direction: column;
   width: 60%;
+  overflow-y: auto;
+  padding-bottom: 40px;
   /* background-color: darkgrey; */
 }
 
@@ -64,10 +67,9 @@
   /* background-color: red; */
 }
 
-.requestContainer:hover .edit .editButton {
+/* .requestContainer:hover .edit .editButton {
   opacity: 1;
-  /* background-color: red; */
-} 
+}  */
 
 .responseContainer {
   width: 100%;

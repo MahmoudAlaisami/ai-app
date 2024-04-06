@@ -25,6 +25,7 @@ const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
 
   const handleSend = async () => {
     console.log(".... ", prompt);
+    if(!prompt) return alert("Type Something First");
 
     // send api call
     const response = await apiCall({prompt})

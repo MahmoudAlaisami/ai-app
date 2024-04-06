@@ -31,7 +31,12 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
 
   const handleNewChat = () => {
     console.log(".... new chat should be created");
-    const newData = [...userData, _newChat];
+    const newChat = {
+      title: "New Chat",
+      queries: [{request: "", response: ""}],
+      time: new Date()
+    }
+    const newData = [...userData, newChat];
     setUserData(newData)
     onSelect(newData.length - 1)
     // handle new chat logic
