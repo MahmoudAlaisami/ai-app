@@ -49,9 +49,13 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
   }
 
   const handleLogout = () => {
-    // localStorage.clear();
-    setUserData([_newChat]);
-    // setUser(null);
+    localStorage.clear();
+    setUserData([{
+      title: "New Chat",
+      queries: [{request: "", response: ""}],
+      time: new Date()
+    }]);
+    setUser(null);
     // await logOut...
   }
 
