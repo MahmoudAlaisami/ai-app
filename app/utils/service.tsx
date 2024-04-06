@@ -1,6 +1,9 @@
 import { loginPropsTypes, User } from "./app.t";
+import bcrypt from 'bcryptjs';
 import prisma from "./prisma";
 import {chain}  from "./chatModel";
+
+const saltRounds = 10;
 
 export const getUserData = () => {
   const storageData: Object | any =
@@ -25,14 +28,15 @@ export const logIn = async ({ email, password }: loginPropsTypes) => {
     //   throw new Error("User not found");
     // }
 
-    // // Check password
-    // const passwordMatch = (password === user.password);
+    // // Check Encypted Password
+    // const const passwordMatch = bcrypt.compareSync(password, user.password);
+    // // const passwordMatch = (password === user.password);
     // if (!passwordMatch) {
     //   throw new Error("Incorrect password");
     // }
 
    // save the user in local storage
-   const user = {email, password, fistName: 'namek', lasName: "last nameK"}
+   const user = {email, password, fistName: 'name', lasName: "lastName"}
    delete user.password
    localStorage.setItem("user", JSON.stringify(user)); 
 
@@ -54,11 +58,14 @@ export const _signUp = async ({ email, password, firstName, lastName, gender, bi
     // check if the user already exists
     if (existingUser) throw new Error("Email already in use");
 
+    // Encrypt Password
+    const hashedPassword = bcrypt.hashSync(password, saltRounds);
+
     //  create new user
     const newUser = await prisma.user.create({
       data: {
         email: email,
-        password: password,
+        password: hashedPassword,
         firstName: firstName,
         lastName: lastName,
         gender: gender,
