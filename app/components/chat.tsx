@@ -88,7 +88,7 @@ const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
             </div>
             <br />
             <div className={styles.responseContainer}>
-              <div className={styles.bot}>{!!(query?.response.length) && ("You")}</div>
+              <div className={styles.bot}>{!!(query?.response.length) && ("Bot")}</div>
               <div className={styles.response}>{query?.response}</div>
             </div>
             <br />
