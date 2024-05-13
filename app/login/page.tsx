@@ -2,33 +2,21 @@
 import React from "react";
 import styles from "@/styles/logIn.module.css";
 import { propsTypes, loginPropsTypes, User, loginFormProps, signUpFormProps, FormCombinedProps } from "@/utils/app.t";
-import { emailRegex } from "@/utils/regex";
-import { logIn, _signUp } from "@/utils/service";
+import { emailRegex, numRegex } from "@/utils/regex";
+import { logIn, signUp } from "@/utils/service";
 import { Button, Form, Input, Image } from "antd";
 import { useRouter } from "next/navigation";
 
 
 // TODO: complete the functionality of logIn and signUp
 //       check the return of the functions on onSignIn params 
+//       add styles to input in form
 
-
-// export const getServerSideProps = async () => {
-//   const user = await logIn({ email, password });
-  
-//   return {
-//     props: { user },
-//   };
-// }
-
-const LogIn: React.FC<any> = ({ onSignIn, user }) => { 
-  const [signUp, setSignUp] = React.useState<boolean>(false);
+const LogIn: React.FC<any> = ({ onSignIn }) => { 
+  const [isSignUp, setIsSignUp] = React.useState<boolean>(false);
 
   const handleLogin = async ({ email, password }: any) => {
-    // check if email and password are empty
-    if (!email || !password) {
-      alert("enter your username or password");
-      return;
-    }
+    console.log('.... ',{ email, password });
 
     // Handle login logic
     const user = await logIn({ email, password })
@@ -38,27 +26,22 @@ const LogIn: React.FC<any> = ({ onSignIn, user }) => {
   };
 
   const toggleSignUp = () => {
-    setSignUp(!signUp)
+    setIsSignUp(!isSignUp)
   };
 
-  const handleSignUp = async ({ email, password, firstName, lastName, gender, birthDay }: User) => {
+  const handleSignUp = async ({ email, password, firstName, lastName, gender, age }: User) => {
     console.log('.... sign up initiated',);
-    if (!email || !password || !firstName || !lastName) {
-      alert("fill in the required inputs marked by *");
-      return;
-    }
-    
 
     // Handle SignUp logic
-    const user = await _signUp({ email, password, firstName, lastName, gender, birthDay });
+    const user = await signUp({ email, password, firstName, lastName, gender, age });
 
-    console.log(".... ", user);
+    console.log(".... login.ts ... signup", user);
     onSignIn(user);
   };
 
   return (
     <div className={styles.container}>
-      {!signUp && (
+      {!isSignUp && (
         <div className={styles.formContainer}>
         
           <Form
@@ -111,7 +94,7 @@ const LogIn: React.FC<any> = ({ onSignIn, user }) => {
           </div>
         </div>
       )}
-      {signUp &&(
+      {isSignUp &&(
         <div className={styles.formContainer}>
         <Form
           name="basic"
@@ -153,9 +136,6 @@ const LogIn: React.FC<any> = ({ onSignIn, user }) => {
           <Form.Item<any>
             label="First Name"
             name="firstName"
-            rules={[
-              { required: true, message: "Please input your first name!" },
-            ]}
             className={styles.formItem}
           >
             <Input />
@@ -164,9 +144,6 @@ const LogIn: React.FC<any> = ({ onSignIn, user }) => {
           <Form.Item<User>
             label="Last Name"
             name="lastName"
-            rules={[
-              { required: true, message: "Please input your last name!" },
-            ]}
             className={styles.formItem}
           >
             <Input />
@@ -175,18 +152,18 @@ const LogIn: React.FC<any> = ({ onSignIn, user }) => {
           <Form.Item<User>
             label="Gender"
             name="gender"
-            rules={[{ required: false, message: "Please input your gender!" }]}
             className={styles.formItem}
           >
             <Input />
           </Form.Item>
 
           <Form.Item<User>
-            label="Birth Date"
-            name="birthDay"
-            rules={[
-              { required: false, message: "Please input your birth date!" },
-            ]}
+            label="Age"
+            name="age"
+            rules={[{
+              pattern: new RegExp(numRegex), 
+              message: "Please input a number only",
+            }]}
             className={styles.formItem}
           >
             <Input />

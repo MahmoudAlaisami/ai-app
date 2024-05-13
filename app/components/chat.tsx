@@ -6,7 +6,7 @@ import { chatPropsTypes } from "@/utils/app.t";
 import { apiCall } from "@/utils/service";
 // import { data } from '@/temp';
 
-const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
+const Chat = ({ chatIndex, userData, refresh }: chatPropsTypes) => {
   const [prompt, setPromt] = React.useState<string>("");
   const [index, setIndex] = React.useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
@@ -36,13 +36,15 @@ const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
       console.log('.... enetered replacing empty chat',);
       chat.queries = [{request: prompt, response}];
       userData[chatIndex] = chat;
-      setUserData(userData);
+      refresh() // @TODO: make api call instead of updateUserData
+      // setUserData(userData);
       return;
     }
     console.log('.... entered incrementing chat',)
     chat.queries = [...chat.queries, {request: prompt, response}]
     userData[chatIndex] = chat
-    setUserData(userData)
+    // setUserData(userData)
+    refresh() // @TODO: make api call instead of updateUserData
   };
 
   const handleChatEdit = ({query, index}: any) => {
@@ -59,7 +61,8 @@ const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
 
     // edit state
     chat.queries[index] = {request: prompt, response};
-    setUserData[chatIndex] = chat;
+    // setUserData[chatIndex] = chat;
+    refresh() // @TODO: make api call instead of updateUserData
     // reset fields and close modal
     setIndex(null)
     setIsModalOpen(false)
@@ -76,7 +79,7 @@ const Chat = ({ chatIndex, userData, setUserData }: chatPropsTypes) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.head}>LLM AI Bot</div>
+      <div className={styles.head}>AI PLANNING ASSISTANT</div>
 
       <div className={styles.chatContainer}>
         {chat?.queries?.map((query, index): any => (

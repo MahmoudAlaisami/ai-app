@@ -1,88 +1,78 @@
 import { loginPropsTypes, User } from "./app.t";
-import bcrypt from 'bcryptjs';
-import prisma from "./prisma";
-import {chain}  from "./chatModel";
 
 const saltRounds = 10;
+const URL = "http://localhost:5000";
 
-export const getUserData = () => {
+
+export const getUserInfo = () => {
   const storageData: Object | any =
     typeof window !== "undefined"
-      ? JSON.parse(localStorage.getItem("userData") || "[]")
+      ? JSON.parse(localStorage.getItem("user") || "{}")
       : null;
   return storageData;
 };
 
-// install bcrypt and import prisma
+export const fetchUserData = async ({id}) => {
+  const resposne = await fetch(URL + "/api/user/" + id, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "access-control-allow-origin": "*",
+    }
+  })
+  const data = resposne.json();
+  console.log('.... service .. fetchUserData',data);
+  return data
+}
 
 export const logIn = async ({ email, password }: loginPropsTypes) => {
-  try {
-    // // Find user by email
-    // const user = await prisma.user.findUnique({
-    //   where: {
-    //     email: email,
-    //   },
-    // });
-
-    // if (!user) {
-    //   throw new Error("User not found");
-    // }
-
-    // // Check Encypted Password
-    // const const passwordMatch = bcrypt.compareSync(password, user.password);
-    // // const passwordMatch = (password === user.password);
-    // if (!passwordMatch) {
-    //   throw new Error("Incorrect password");
-    // }
-
-   // save the user in local storage
-   const user = {email, password, fistName: 'name', lasName: "lastName"}
-   delete user.password
-   localStorage.setItem("user", JSON.stringify(user)); 
-
-    // Return the authenticated user
-    return user;
-  } catch (error) {
-    throw new Error("Login failed: " + error.message);
-  }
+  const response = await fetch(URL + "/admin/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "access-control-allow-origin": "*",
+    },
+    body: JSON.stringify({ email, password }),
+  });
+  const data = await response.json();
+  // if (!data?.match) return alert(`${data?.message}`); // @CHECK: alert part
+  console.log("....service login", data);
+  const { user } = data
+  localStorage.setItem("user", JSON.stringify(user));
+  return user;
 };
 
-export const _signUp = async ({ email, password, firstName, lastName, gender, birthDay }: User) => {
-  try {
-    const existingUser = await prisma.user.findUnique({
-      where: {
-        email: email,
-      },
-    });
+export const signUp = async ({ email, password, firstName, lastName, gender, age }: User) => {
+  const response = await fetch(URL + "/admin/signup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "access-control-allow-origin": "*",
+    },
+    body: JSON.stringify({ email, password, firstName, lastName, gender, age }),
+  });
+  const data = await response.json();
+  // if (!data?.user.token) return alert(`${data?.message}`); // @CHECK: alert part
+  console.log("....service login", data);
+  const { user } = data
+  localStorage.setItem("user", JSON.stringify(user));
+  return user;
+};
 
-    // check if the user already exists
-    if (existingUser) throw new Error("Email already in use");
-
-    // Encrypt Password
-    const hashedPassword = bcrypt.hashSync(password, saltRounds);
-
-    //  create new user
-    const newUser = await prisma.user.create({
-      data: {
-        email: email,
-        password: hashedPassword,
-        firstName: firstName,
-        lastName: lastName,
-        gender: gender,
-        birthDay: birthDay,
-      },
-    });
-
-    // save the user in local storage
-    //  const newUser = {email, password, fistName: 'kk', lasName: "K"}
-    delete newUser.password
-    localStorage.setItem("user", JSON.stringify(newUser)); 
-
-    return newUser;
-  } catch (error) {
-    console.log("Sign Up failed:", error.message);
-    throw new Error(error);
-  }
+export const logOut = async () => {
+  const storageData = getUserInfo()
+  const userId = storageData._id
+  console.log('.... userId',userId);
+  const resposne = await fetch(URL + '/admin/' + userId, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "access-control-allow-origin": "*",
+    },
+  })
+  const data = await resposne.json();
+  console.log('.... service ... logout', data);
+  return data
 };
 
 // export const getChats = async (userId: number) => {
@@ -223,12 +213,10 @@ export const _signUp = async ({ email, password, firstName, lastName, gender, bi
 export const apiCall = async ({prompt}) => {
 
   try {
-    const response = await chain.call({
-      input: prompt
-    })
+    const response =0
   
-    console.log('.... service..apiCall..response',response.response);
-    return response.response
+    console.log('.... service..apiCall..response',response);
+    return response
     
   } catch(error) {
     console.log('.... service..apiCall..error',error);

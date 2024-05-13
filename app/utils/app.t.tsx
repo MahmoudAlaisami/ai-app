@@ -6,13 +6,15 @@ export interface User {
   firstName: string;
   lastName: string;
   gender?: string;
-  birthDay?: string;
-  id?: number;
+  age?: number;
+  _id?: string;
+  token?: string;
+  loggedInAt?: Date;
 }
 
 export interface query {
-  request: string;
-  response: string;
+  prompt: string;
+  completion: string;
 }
 
 export interface chat {
@@ -43,20 +45,28 @@ export interface signUpFormProps extends User {
 export interface contentPropsTypes {
   user: User;  
   userData: Array<chat>;
-  setUserData: Function;
-  setUser: Function;
+  refresh: Function;
+  logOut: Function;
 }
 
 export interface sideBarProps {
   user: User;
   userData: Array<chat>;
-  setUserData: Function;
+  refresh: Function;
   onSelect: Function;
-  setUser: Function;
+  logOut: Function;
 }
 
 export interface chatPropsTypes {
   chatIndex: number;
-  setUserData: Function;
+  refresh: Function;
   userData: Array<chat>;
+}
+
+export interface chatEditTypes {
+  chat: chat;
+  index: number;
+  refresh: Function;
+  userData: Array<chat>;
+  onDelete: Function;
 }

@@ -5,12 +5,13 @@ import { MenuOutlined, SettingOutlined, PlusOutlined, EditOutlined } from "@ant-
 import { Popover, Input } from "antd";
 import ChatEdit from "./chatEdit";
 import _newChat from "@/utils/newChat"
+import { logOut } from "@/utils/service";
 
 // change edit functionality:
 // change hover to click and add kabab icon at the end of the flex
 
 
-const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProps) => {
+const SideBar = ({ user, userData, onSelect, refresh, logOut }: sideBarProps) => {
   const [sideBar, setSideBar] = React.useState<boolean>(false);
   const [profile, setProfile] = React.useState<string>("");
 
@@ -37,7 +38,7 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
       time: new Date()
     }
     const newData = [...userData, newChat];
-    setUserData(newData)
+    refresh() // @TODO: make api call instead of updateUserData
     onSelect(newData.length - 1)
     // handle new chat logic
   };
@@ -45,18 +46,11 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
   const handleDelete = (index: number) => {
     const newData = [...userData];
     newData.splice(index, 1); 
-    setUserData(newData);
+    refresh() // @TODO: make api call instead of updateUserData
   }
 
-  const handleLogout = () => {
-    localStorage.clear();
-    setUserData([{
-      title: "New Chat",
-      queries: [{request: "", response: ""}],
-      time: new Date()
-    }]);
-    setUser(null);
-    // await logOut...
+  const handleLogout = async () => {
+    logOut()
   }
 
   const logoutContent = (
@@ -80,7 +74,7 @@ const SideBar = ({ user, setUser, userData, onSelect, setUserData }: sideBarProp
         <div className={styles.chatContainer}>
           {sideBar &&
             userData?.map((chat,index): any => ( // fix type !!!
-            <Popover content={<ChatEdit chat={chat} index={index} setUserData={setUserData} userData={userData} onDelete={handleDelete}/*onDelete={handleDeleteChat}*/ />} trigger="hover" key={index}>
+            <Popover content={<ChatEdit chat={chat} index={index} refresh={refresh} userData={userData} onDelete={handleDelete}/*onDelete={handleDeleteChat}*/ />} trigger="hover" key={index}>
               <div
                 onClick={() => handleChatSelect(index)}
                 className={styles.chat}

@@ -1,65 +1,73 @@
-'use client'
+"use client";
 import React from "react";
 import styles from "./styles/page.module.css";
 import { User, chat } from "./utils/app.t";
 import LogIn from "./login/page";
-import Content from "@/components/content"
-import _newChat from "@/utils/newChat"
-import { getUserData } from "./utils/service";
+import Content from "@/components/content";
+import _newChat from "@/utils/newChat";
+import { fetchUserData, logOut } from "./utils/service";
 
 // import { mochData, mochUser } from "../temp";
 
 // fix css responsiveness with sideBar
 
-
-export default function Home() {
-
+function Home() {
   const [user, setUser] = React.useState<User | null>(null);
-  const [userData, setUserData] = React.useState<chat[] | null>([_newChat]);
+  const [userData, setUserData] = React.useState<chat[] | null>(null);
+  const token = user?.token;
 
   const retrieveUser = () => {
-    const userString = localStorage.getItem('user');
+    const userString = localStorage.getItem("user");
+    console.log(".... ", { userString });
     if (userString) {
       const user: any = JSON.parse(userString);
       setUser(user);
     }
-  }
+  };
 
-  const fetchUserData = async () => {
-    // const data = await getChats ... api call
-    const data = getUserData() // apiCall: replace
-    if(!data[0]?.queries[0]?.request) return setUserData([_newChat]); // apiCall: remove
-    console.log('.... fetchUserData',typeof(data), data);
-    // localStorage.setItem("userData", JSON.stringify(data)) // apiCall: enable
-    setUserData(data)
-  }
-
-  React.useEffect(()=>{
-    console.log('.... useEffect',user);
+  React.useEffect(() => {
     retrieveUser();
-    fetchUserData();
-  },[]);
+  }, []);
 
-  const handleUserData = (data: chat[]) => {
-    localStorage.setItem('userData', JSON.stringify(data)) // apiCall: remove
-    console.log('.... handleUserData',data);
-    setUserData(null)
+  const updateUserData = (data: chat[]) => {
+    // @TODO: make api call to update user data
+    console.log(".... handleUserData", data);
     setUserData(data);
-  }
+  };
 
-  const handleSignIn = (_user: User) => {
+  const handleSignIn = async (_user: User) => {
+    let _userData = await fetchUserData({ id: _user._id });
+    if (!_userData.length) _userData = [_newChat()];
+    setUserData(_userData);
     setUser(_user);
-    fetchUserData();
-  }
+  };
 
+  const onLogOut = async () => {
+    await logOut();
+    localStorage.clear();
+    setUser(null);
+  };
 
-
-  const isSignedIn = !!user;
+  const isSignedIn = !!token;
 
   return (
     <div className={styles.container}>
       {!isSignedIn && <LogIn onSignIn={handleSignIn} />}
-      {isSignedIn && <Content user={user} userData={userData} setUserData={handleUserData} setUser={setUser}/>}
+      {isSignedIn && (
+        <Content
+          user={user}
+          userData={userData}
+          refresh={updateUserData}
+          logOut={onLogOut}
+        />
+      )}
     </div>
   );
 }
+
+export default Home;
+
+// @TODO:
+// 1-edit functionality of fetch User data on all pages
+// 2-verify token and it 8rad
+// 3-you can add 1 new chat only

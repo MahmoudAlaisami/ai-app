@@ -3,9 +3,10 @@ import styles from "@/styles/chatEdit.module.css"
 import { chat } from '@/utils/app.t'
 import { EditOutlined, DeleteOutlined} from "@ant-design/icons";
 import { Modal, Input } from 'antd';
+import { chatEditTypes } from "@/utils/app.t";
 
 
-const ChatEdit = ({chat, index, setUserData, userData, onDelete}:any) => {  // fix types !!!
+const ChatEdit = ({chat, index, refresh, userData, onDelete}: chatEditTypes) => {  // fix types !!!
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const [newTitle, setNewTitle] = React.useState<string>(chat.title);
 
@@ -34,7 +35,7 @@ const ChatEdit = ({chat, index, setUserData, userData, onDelete}:any) => {  // f
       queries: chat.queries,
       time: chat.time
     }
-    setUserData([...userData, ])
+    refresh() // @TODO: make api call instead of updateUserData
     setIsModalOpen(false)
   };
   const handleCancel = () => {

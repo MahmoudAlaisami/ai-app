@@ -6,7 +6,8 @@
   align-items: center;
   height: 100vh;
   /* background-color: lightblue; */
-  background-image: url('/neural-network.jpg') ;
+  /* background-image: url('/neural-network.jpg') ; */
+  background-color: lightsteelblue;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

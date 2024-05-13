@@ -6,10 +6,9 @@ import Chat from "./chat";
 import SideBar from "./sideBar";
 
 
-const Content = ({ user, userData, setUserData, setUser }: contentPropsTypes) => {
+const Content = ({ user, userData, refresh, logOut }: contentPropsTypes) => {
 
   const [selectedChatIndex, setSelectedChatIndex] = React.useState<number>(0)
-  // const chat = selectedChat?.queries
 
   const handleChatSelect = (index: number ) => {
     console.log('.... content to display', index);
@@ -20,11 +19,21 @@ const Content = ({ user, userData, setUserData, setUser }: contentPropsTypes) =>
   return (
     <div className={styles.container}>
       <div className={styles.chatContainer}>
-        <Chat chatIndex={selectedChatIndex} userData={userData} setUserData={setUserData} />
+        {/* <Chat 
+          chatIndex={selectedChatIndex} 
+          userData={userData} 
+          refresh={updateUserData} 
+        /> */}
       </div>
 
       <div className={styles.sideBar}>
-        <SideBar user={user} setUser={setUser} userData={userData} setUserData={setUserData} onSelect={(index: number)=>handleChatSelect(index)}/>
+        <SideBar 
+          user={user} 
+          userData={userData} 
+          refresh={refresh} 
+          onSelect={(index: number)=>handleChatSelect(index)}
+          logOut={logOut}
+        />
       </div>
     </div>
   );
