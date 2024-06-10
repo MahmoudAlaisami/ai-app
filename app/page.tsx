@@ -7,42 +7,51 @@ import Content from "@/components/content";
 import _newChat from "@/utils/newChat";
 import { fetchUserData, logOut } from "./utils/service";
 
-// import { mochData, mochUser } from "../temp";
+import { mochData, mochSignedUser } from "../temp";
 
 // fix css responsiveness with sideBar
 
 function Home() {
-  const [user, setUser] = React.useState<User | null>(null);
+  const [user, setUser] = React.useState<User | null>(mochSignedUser);  //@TODO: change state to null before deployment
   const [userData, setUserData] = React.useState<chat[] | null>(null);
   const token = user?.token;
+  console.log('userdata', userData)
+  localStorage.setItem('user', JSON.stringify(mochSignedUser))  //@TODO: delete this line before deployment
 
   const retrieveUser = () => {
     const userString = localStorage.getItem("user");
-    console.log(".... ", { userString });
     if (userString) {
       const user: any = JSON.parse(userString);
       setUser(user);
     }
   };
 
-  React.useEffect(() => {
-    retrieveUser();
-  }, []);
-
-  const updateUserData = (data: chat[]) => {
-    // @TODO: make api call to update user data
+  const updateUserData = async() => {
+    let data = await fetchUserData({ id: user._id });
+    if (!data.length) data = [_newChat()];
     console.log(".... handleUserData", data);
     setUserData(data);
   };
 
+  React.useEffect(() => {
+    retrieveUser();
+  }, []);
+
   const handleSignIn = async (_user: User) => {
-    let _userData = await fetchUserData({ id: _user._id });
-    if (!_userData.length) _userData = [_newChat()];
-    setUserData(_userData);
+    let data = await fetchUserData({ id: _user._id });
+    if (!data.length) data = [_newChat()];
+    console.log('.... handleSignIn...userData',data);
+    setUserData(data);
     setUser(_user);
   };
 
+  const onNewChat = () => {
+    const newChat = _newChat()
+    setUserData([...userData, newChat])
+  };
+
   const onLogOut = async () => {
+    console.log('.... logging out',);
     await logOut();
     localStorage.clear();
     setUser(null);
@@ -57,8 +66,9 @@ function Home() {
         <Content
           user={user}
           userData={userData}
-          refresh={updateUserData}
+          updateUserData={updateUserData}
           logOut={onLogOut}
+          onNewChat={onNewChat}
         />
       )}
     </div>
@@ -71,3 +81,4 @@ export default Home;
 // 1-edit functionality of fetch User data on all pages
 // 2-verify token and it 8rad
 // 3-you can add 1 new chat only
+// 4- title generation should not work if the title is NOT "new chat" 

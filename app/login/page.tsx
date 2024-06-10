@@ -8,20 +8,13 @@ import { Button, Form, Input, Image } from "antd";
 import { useRouter } from "next/navigation";
 
 
-// TODO: complete the functionality of logIn and signUp
-//       check the return of the functions on onSignIn params 
-//       add styles to input in form
+// TODO: handle unauthorized logins and signups
 
 const LogIn: React.FC<any> = ({ onSignIn }) => { 
   const [isSignUp, setIsSignUp] = React.useState<boolean>(false);
 
   const handleLogin = async ({ email, password }: any) => {
-    console.log('.... ',{ email, password });
-
-    // Handle login logic
     const user = await logIn({ email, password })
-    console.log(".... user login", user);
-
     onSignIn(user);
   };
 
@@ -30,12 +23,7 @@ const LogIn: React.FC<any> = ({ onSignIn }) => {
   };
 
   const handleSignUp = async ({ email, password, firstName, lastName, gender, age }: User) => {
-    console.log('.... sign up initiated',);
-
-    // Handle SignUp logic
     const user = await signUp({ email, password, firstName, lastName, gender, age });
-
-    console.log(".... login.ts ... signup", user);
     onSignIn(user);
   };
 

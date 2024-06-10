@@ -3,53 +3,59 @@ import styles from "@/styles/chat.module.css";
 import { Input, Button, Modal } from "antd";
 import { SendOutlined, EditOutlined } from "@ant-design/icons";
 import { chatPropsTypes } from "@/utils/app.t";
-import { apiCall } from "@/utils/service";
-// import { data } from '@/temp';
+import { getCompletion, generateTitle, generateFollowUpQuestions } from "@/utils/service";
+import { mochData } from '../../temp';  //@TODO: delete this line before deployment
 
 const Chat = ({ chatIndex, userData, refresh }: chatPropsTypes) => {
   const [prompt, setPromt] = React.useState<string>("");
   const [index, setIndex] = React.useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
+  const [followUpQ, setFollowUpQ] = React.useState<string[]>([])
 
-
+console.log('.... ',{userData, chatIndex});
   const chat = userData[chatIndex]
+  let { queries } = chat
 
   React.useEffect(() => {
-    if(chat.queries[0].response !== "") {
-      return setIsVisible(true)
-    }
-    setIsVisible(false)
-    console.log('.... ',userData);
+    // if(chat.queries[0].pros
+    // console.log('.... ',userData);
   }, [])
 
   const handleSend = async () => {
     console.log(".... ", prompt);
     if(!prompt) return alert("Type Something First");
 
-    // send api call
-    const response = await apiCall({prompt})
-    // edit state
-    // test this 
-    setPromt("")
-    if(chat.queries[0].request === ""){
-      console.log('.... enetered replacing empty chat',);
-      chat.queries = [{request: prompt, response}];
-      userData[chatIndex] = chat;
-      refresh() // @TODO: make api call instead of updateUserData
-      // setUserData(userData);
-      return;
+    // generate answer
+    const completion = await getCompletion({prompt, conversationId: chat._id, index: queries.length});
+    // check to generate title
+    if(index == 0) {
+      const title = await generateTitle({prompt, completion})
+      refresh()
     }
-    console.log('.... entered incrementing chat',)
-    chat.queries = [...chat.queries, {request: prompt, response}]
-    userData[chatIndex] = chat
+    setPromt("");
+    // generate follow up questions
+    // const questions = await generateFollowUpQuestions()
+    // setFollowUpQ(questions)
+
+    // if(queries[0].prompt === ""){
+    //   console.log('.... enetered replacing empty chat',);
+    //   queries = [{ prompt, completion}];
+    //   userData[chatIndex] = chat;
+    //   refresh() // @TODO: make api call instead of updateUserData
+    //   // setUserData(userData);
+    //   return;
+    // }
+    // console.log('.... entered incrementing chat',)
+    // chat.queries = [...chat.queries, { prompt, completion}]
+    // userData[chatIndex] = chat
     // setUserData(userData)
     refresh() // @TODO: make api call instead of updateUserData
   };
 
   const handleChatEdit = ({query, index}: any) => {
     console.log('.... handleChatEdit ',{query, index})
-    setPromt(query.request);
+    setPromt(query.prompt);
     setIndex(index);
     setIsModalOpen(true);
   }
@@ -57,10 +63,10 @@ const Chat = ({ chatIndex, userData, refresh }: chatPropsTypes) => {
   const handleOk = () => {
     console.log('.... handleOk',);
     // send api call
-    const response = null // await call...
+    const completion = null // await call...
 
     // edit state
-    chat.queries[index] = {request: prompt, response};
+    chat.queries[index] = { prompt, completion};
     // setUserData[chatIndex] = chat;
     refresh() // @TODO: make api call instead of updateUserData
     // reset fields and close modal
@@ -85,15 +91,15 @@ const Chat = ({ chatIndex, userData, refresh }: chatPropsTypes) => {
         {chat?.queries?.map((query, index): any => (
           <div key={index} className={styles.chat}>
             <div className={styles.requestContainer}>
-              <div className={styles.you}>{!!(query?.request.length) && ("You")}</div>
-              <div className={styles.request}>{query?.request}</div>
+              <div className={styles.you}>{!!(query?.prompt.length) && ("You")}</div>
+              <div className={styles.request}>{query?.prompt}</div>
               <div className={styles.edit}><EditOutlined onClick={()=>handleChatEdit({query, index})} className={styles.editButton}/></div>
             </div>
             <br />
             <div className={styles.responseContainer}>
-              <div className={styles.bot}>{!!(query?.response.length) && ("Bot")}</div>
+              <div className={styles.bot}>{!!(query?.completion.length) && ("Bot")}</div>
               <p className={styles.response}>
-                {query?.response.split('\n').map((line, index) => (
+                {query?.completion.split('\n').map((line, index) => (
                 <React.Fragment key={index}>
                   {line}
                   <br />

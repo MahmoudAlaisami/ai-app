@@ -2,7 +2,7 @@ import { FormProps } from 'antd/lib/form';
 
 export interface User {
   email: string;
-  password: string;
+  password?: string;
   firstName: string;
   lastName: string;
   gender?: string;
@@ -21,6 +21,7 @@ export interface chat {
   title: string
   queries: Array<query>;
   time: Date;
+  _id?: string;
 }
 
 export interface propsTypes {    //  CHECK THIS !!
@@ -45,8 +46,9 @@ export interface signUpFormProps extends User {
 export interface contentPropsTypes {
   user: User;  
   userData: Array<chat>;
-  refresh: Function;
+  updateUserData: Function;
   logOut: Function;
+  onNewChat: Function;
 }
 
 export interface sideBarProps {
@@ -55,6 +57,7 @@ export interface sideBarProps {
   refresh: Function;
   onSelect: Function;
   logOut: Function;
+  onNewChat: Function;
 }
 
 export interface chatPropsTypes {

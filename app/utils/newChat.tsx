@@ -1,7 +1,7 @@
 const Chat = ()=> {
   return {
     title: "New Chat",
-    queries: [{request: "", response: ""}],
+    queries: [{prompt: "", completion: ""}],
     time: new Date()
   }
 }

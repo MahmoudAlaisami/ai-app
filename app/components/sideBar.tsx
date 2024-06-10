@@ -5,20 +5,18 @@ import { MenuOutlined, SettingOutlined, PlusOutlined, EditOutlined } from "@ant-
 import { Popover, Input } from "antd";
 import ChatEdit from "./chatEdit";
 import _newChat from "@/utils/newChat"
-import { logOut } from "@/utils/service";
+import { deleteChat } from "@/utils/service";
 
 // change edit functionality:
 // change hover to click and add kabab icon at the end of the flex
+// center the name at the bottom of the sidebar
 
 
-const SideBar = ({ user, userData, onSelect, refresh, logOut }: sideBarProps) => {
+const SideBar = ({ user, userData, onSelect, refresh, logOut, onNewChat }: sideBarProps) => {
   const [sideBar, setSideBar] = React.useState<boolean>(false);
-  const [profile, setProfile] = React.useState<string>("");
-
-  // React.useEffect(()=>{
-  //   setProfile(`${user?.firstName} ${user?.lastName}`)
-  //   console.log('.... hhhhh',profile, user?.firstName);
-  // },[profile])
+  console.log('.... sideBar',{userData});
+  const firstName = user.firstName !== undefined ? user.firstName : ""
+  const lastName = user.lastName !== undefined ? user.lastName : ""
 
 
   const handleToggleMenu = () => {
@@ -30,23 +28,18 @@ const SideBar = ({ user, userData, onSelect, refresh, logOut }: sideBarProps) =>
     console.log(".... chat", userData[index]);
   };
 
-  const handleNewChat = () => {
-    console.log(".... new chat should be created");
-    const newChat = {
-      title: "New Chat",
-      queries: [{request: "", response: ""}],
-      time: new Date()
-    }
-    const newData = [...userData, newChat];
-    refresh() // @TODO: make api call instead of updateUserData
-    onSelect(newData.length - 1)
-    // handle new chat logic
+  const handleNewChat = async() => {
+    // @TODO: uncomment the below line
+    // if(userData[userData.length - 1].queries[0].prompt == "") return;
+    onNewChat();
+    onSelect(userData.length - 1);
   };
   
-  const handleDelete = (index: number) => {
-    const newData = [...userData];
-    newData.splice(index, 1); 
-    refresh() // @TODO: make api call instead of updateUserData
+  const handleDelete = async(index: number) => {
+    // @TEST: test this function
+    const chat = userData[index]
+    await deleteChat({id:chat._id})
+    refresh()
   }
 
   const handleLogout = async () => {
@@ -54,9 +47,9 @@ const SideBar = ({ user, userData, onSelect, refresh, logOut }: sideBarProps) =>
   }
 
   const logoutContent = (
-    <div onClick={handleLogout}>Log Out</div>
+    <div className={styles.logoutButton} onClick={handleLogout}>Log Out</div>
+    // @TODO: add profile edit tab
   )
-  
 
 
   return (
@@ -86,9 +79,9 @@ const SideBar = ({ user, userData, onSelect, refresh, logOut }: sideBarProps) =>
           ))}
         </div>
       </div>
-      <div>
+      <div className={styles.profile}>
         <Popover content={logoutContent} trigger="hover" >
-        {sideBar && `${user.firstName} ${user.lastName}`}
+        {sideBar && `${firstName} ${lastName}`}
       </Popover>
       </div>
     </div>

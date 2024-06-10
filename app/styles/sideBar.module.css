@@ -46,6 +46,7 @@
 }
 
 .newChatIcon:hover {
+  cursor: pointer;
   background-color: var(--color-bg-ii);
   border: 1px solid var(--color-bg-iii);
 }
@@ -89,10 +90,18 @@
   vertical-align: middle;
 }
 
+.profile:hover {
+  cursor: pointer;
+}
+
 
 
 .settings {
   align-self: center;
   height: 30px;
   width: 30px;
+}
+
+.logoutButton:hover {
+  background-color: red;
 }
