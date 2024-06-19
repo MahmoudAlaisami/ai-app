@@ -4,7 +4,7 @@ import { Input, Button, Modal } from "antd";
 import { SendOutlined, EditOutlined } from "@ant-design/icons";
 import { chatPropsTypes } from "@/utils/app.t";
 import { getCompletion, generateTitle, generateFollowUpQuestions } from "@/utils/service";
-import { mochData } from '../../temp';  //@TODO: delete this line before deployment
+// import { mochData } from '../../temp';  //@TODO: delete this line before deployment
 
 const Chat = ({ chatIndex, userData, refresh }: chatPropsTypes) => {
   const [prompt, setPromt] = React.useState<string>("");

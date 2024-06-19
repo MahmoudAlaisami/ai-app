@@ -7,22 +7,22 @@ import Content from "@/components/content";
 import _newChat from "@/utils/newChat";
 import { fetchUserData, logOut } from "./utils/service";
 
-import { mochData, mochSignedUser } from "../temp";
+// import { mochData, mochSignedUser } from "../temp";
 
 // fix css responsiveness with sideBar
 
 function Home() {
-  const [user, setUser] = React.useState<User | null>(mochSignedUser);  //@TODO: change state to null before deployment
+  const [user, setUser] = React.useState<User | null>(null)//mochSignedUser);  //@TODO: change state to null before deployment
   const [userData, setUserData] = React.useState<chat[] | null>(null);
   const token = user?.token;
   console.log('userdata', userData)
-  localStorage.setItem('user', JSON.stringify(mochSignedUser))  //@TODO: delete this line before deployment
+  // localStorage.setItem('user', JSON.stringify(mochSignedUser))  //@TODO: delete this line before deployment
 
   const retrieveUser = () => {
     const userString = localStorage.getItem("user");
     if (userString) {
-      const user: any = JSON.parse(userString);
-      setUser(user);
+      // const user: any = JSON.parse(userString); //@TODO: I (Zaher) commented these 2 lines because they were causing an error
+      // setUser(user);
     }
   };
 

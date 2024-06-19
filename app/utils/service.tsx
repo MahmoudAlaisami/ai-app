@@ -14,13 +14,36 @@ export const getUserInfo = () => {
 
 
 export const logIn = async ({ email, password }: loginPropsTypes) => {
+
+  const data_log = {
+    grant_type: '',
+    username: 'zaher@gmail.com',
+    password: 'string',
+    scope: '',
+    client_id: '',
+    client_secret: ''
+  };
+  
+  const headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded'
+  };
+
+  // Create a FormData object
+  const formData = new FormData();
+  formData.append('username', email);
+  formData.append('password', password);
   const response = await fetch(URL + "/admin/", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "access-control-allow-origin": "*",
-    },
-    body: JSON.stringify({ email, password }),
+    // headers: {
+    //   "Content-Type": "application/json",
+    //   "access-control-allow-origin": "*",
+ 
+    // },
+    headers: headers,
+    // body: JSON.stringify({ email, password }),
+    body: new URLSearchParams(data_log),
+    // body: formData,
   });
   const data = await response.json();
   // if (!data?.match) return alert(`${data?.message}`); // @TODO: implement error handling
